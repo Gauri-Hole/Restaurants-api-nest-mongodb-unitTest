@@ -21,6 +21,13 @@ export class RestaurantsController {
         return this.restaurantsService.findAll(query);
     }
 
+    @Get('/all')
+    async getRestaurants(
+        @Query() query:ExpressQuery,  
+        ): Promise<Restaurant[]> {
+        return this.restaurantsService.findRES(query);
+    }
+
     @Post()
     @UseGuards(AuthGuard(), RolesGaurds)
     @Roles('admin','user')

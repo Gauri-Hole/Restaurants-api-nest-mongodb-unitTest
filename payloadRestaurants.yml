@@ -1,0 +1,40 @@
+#not working unable to pass token
+config:
+  target: "http://localhost:3000"
+  phases:
+    - name: smoke_testing
+      duration: 1
+      arrivalRate: 1
+  payload:
+    path: ./test-data/data.csv
+    order: sequence           # default: random
+    loadAll: true             
+    skipHeader: true          # default: false  
+    delimiter: ","            # default: ,
+    skipEmptyLines: true      # default: true
+    fields:
+      - "name"
+      - "description"
+      - "email"
+      - "phoneNo"
+      - "category"
+      - "address"
+
+scenarios:
+- name: "Post restaurant"
+  flow:
+  - post:
+      url: "/restaurants"
+      headers:
+        Content-Type: application/json
+        Authorization: "{{ token }}"
+        #Authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MTA0ZjJjNjYwNDAxMTIyY2FhMDIwNyIsImlhdCI6MTY3OTA0MDk3MCwiZXhwIjoxNjc5MTI3MzcwfQ.74D2LVIbMo5MAc1v60zcFu6UWBEASMSCh1yvrsf92Wc"
+      json:
+        name: "{{ name }}"
+        description: "{{ description }}"
+        subType: "{{ subType }}"
+        email: "{{ email }}"
+        phoneNo: "{{ phoneNo }}"
+        category: "{{ category }}"
+        address: "{{ address }}"
+

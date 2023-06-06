@@ -30,6 +30,23 @@ export class RestaurantsService {
         return restaurants;
     }
 
+    //Get all restaurants with exec()
+    async findRES(query: Query): Promise<Restaurant[]> {
+        const resPerPage = 10;
+        let sort: any = { $name: -1 };
+        const currentPage = Number(query.page) || 1;
+        const skip = resPerPage * (currentPage - 1);
+        const keyword = query.keyword ? {
+            name: {
+                $regex: query.keyword,
+                $options: 'i'
+            }
+        } : {}
+        const restaurants = await this.restaurantModel
+            .find({ ...keyword }).sort(sort).limit(resPerPage).skip(skip).exec();
+        return restaurants;
+    }
+
     //Create new restaurant   POST  /restaurants
     async create(restaurant: Restaurant, user: User): Promise<Restaurant> {
         const data = Object.assign(restaurant, { user: user._id })

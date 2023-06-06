@@ -1,0 +1,24 @@
+config:
+  target: "http://localhost:3000"
+  plugins:
+    expect: {}
+  
+  environments:
+    load:  
+      phases:
+        - name: smoke_load_testing
+          duration: 1
+          arrivalRate: 1
+      
+    functional:
+      phases:
+        - name: func_smoke_testing
+          duration: 1
+          arrivalCount: 1
+
+
+scenarios:
+  - name: "Get Test"
+    flow:
+    - get:
+        url: "/restaurants"

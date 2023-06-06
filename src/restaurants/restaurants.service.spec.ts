@@ -71,6 +71,22 @@ describe('RestaurantsService', () => {
     });
   });
 
+  describe('findRes for exec() mocking', () => {
+    it('should be find all the restaurants exec() mocking', async () => {
+      jest.spyOn(model, 'find').mockReturnValue({
+        sort:()=>({
+          limit:() =>({
+            skip:() =>({
+              exec: jest.fn().mockResolvedValueOnce(mockRestaurant),
+            })
+          })
+        })
+      } as any);
+      const restaurant = await service.findRES({ keyword: 'restaurant' });
+      expect(restaurant).toEqual(mockRestaurant);
+    });
+  });
+
   describe('create', () => {
     const newRestaurant = {
       name: "Retaurant 3",
